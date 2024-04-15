@@ -6,6 +6,7 @@
 
 
 <div class="container">
+
 <h2>Livres disponibles</h2>
 <table class="table">
     <thead>
@@ -21,16 +22,18 @@
         </tr>
     </thead>
     <tbody>
+    {% for book in books %}
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td><img class="listImage" src="{{book.image}}" alt="image {{book.title}}"></td>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.publicationYear}}</td>
+            <td>{{book.summary}}</td>
+            <td>{{book.globalRating}}</td>
+            <td>{{book.state.name}}</td>
             <td></td>
         </tr>
+    {% endfor %}
     </tbody>
 </table>
 </div>

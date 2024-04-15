@@ -21,6 +21,15 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function findAvailable(){
+
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.available = true')
+            ->join('b.state', 's')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Book[] Returns an array of Book objects
 //     */
