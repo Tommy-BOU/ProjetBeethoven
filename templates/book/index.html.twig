@@ -25,12 +25,12 @@
     <tbody>
     {% for book in books %}
         <tr>
-            <td><img class="listImage" src="{{book.image}}" alt="image {{book.title}}"></td>
+            <td><img class="listImage rounded mx-auto d-block" src="{{book.image}}" alt="image {{book.title}}"></td>
             <td>{{book.title}}</td>
             <td>{{book.author}}</td>
             <td>{{book.publicationYear}}</td>
             <td>{{book.summary}}</td>
-            <td>{{book.globalRating}}</td>
+            <td>{{book.globalRating}} / 5</td>
             <td>{{book.state.name}}</td>
             <td>{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
             <td>
@@ -38,8 +38,15 @@
                 <a class="btn btn-warning" href="">Réserver</a>
             </td>
         </tr>
+        
     {% endfor %}
+
     </tbody>
 </table>
+        <div class="d-flex justify-content-center mt-4">
+                        {{ knp_pagination_render(books, null, {}, {
+                    page:params.page|default(1)
+                })}}
+        </div>
 </div>
 {% endblock %}

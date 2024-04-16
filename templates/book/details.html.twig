@@ -8,36 +8,19 @@
 <div class="container">
 
 <h2>Détails du livre</h2>
-<table class="table">
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Titre</th>
-            <th>Auteur</th>
-            <th>Année de publication</th>
-            <th>Résumé</th>
-            <th>Note</th>
-            <th>État</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td><img class="listImage" src="{{book.image}}" alt="image {{book.title}}"></td>
-            <td>{{book.title}}</td>
-            <td>{{book.author}}</td>
-            <td>{{book.publicationYear}}</td>
-            <td>{{book.summary}}</td>
-            <td>{{book.globalRating}}</td>
-            <td>{{book.state.name}}</td>
-            <td>
-                <button class="btn btn-warning">Réserver</button>
-            </td>
-        </tr>
+
+        <div class="card text-center p-5">
+        <img class="cardImage rounded mx-auto d-block" src="{{book.image}}" alt="image {{book.title}}">
+        <h1>{{book.title}}</h1>
+        <h5>de {{book.author}}</h5>
+        <h5>Publié le {{book.publicationYear}}</h5>
+        <p>{{book.summary}}</p>
+        <p>{{book.state.name}}</p>
+        <p>Note : {{book.globalRating}} / 5</p>
+        <button class="btn btn-warning w-25 mx-auto">Réserver</button>
+        </div>
 
         <a class="btn btn-primary" href="{{ path('app_book') }}">Retour à la liste</a>
 
-    </tbody>
-</table>
 </div>
 {% endblock %}
