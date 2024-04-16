@@ -21,11 +21,33 @@ class BookRepository extends ServiceEntityRepository
         parent::__construct($registry, Book::class);
     }
 
+    public function findWithState($id){
+
+        if ($id != null)
+        {
+            return $this->createQueryBuilder('b')
+                ->join('b.state', 's')
+                ->andWhere('b.id = :id')
+                ->setParameter('id', $id)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+        else{
+            return $this->createQueryBuilder('b')
+            ->join('b.state', 's')
+            ->orderBy('b.title', 'ASC')
+            ->getQuery()
+            ->getResult();
+        }
+
+    }
+
     public function findAvailable(){
 
         return $this->createQueryBuilder('b')
             ->andWhere('b.available = true')
             ->join('b.state', 's')
+            ->orderBy('b.title', 'ASC')
             ->getQuery()
             ->getResult();
     }

@@ -7,7 +7,7 @@
 
 <div class="container">
 
-<h2>Livres disponibles</h2>
+<h2>Détails du livre</h2>
 <table class="table">
     <thead>
         <tr>
@@ -18,12 +18,10 @@
             <th>Résumé</th>
             <th>Note</th>
             <th>État</th>
-            <th>Disponibilité</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
-    {% for book in books %}
         <tr>
             <td><img class="listImage" src="{{book.image}}" alt="image {{book.title}}"></td>
             <td>{{book.title}}</td>
@@ -32,13 +30,13 @@
             <td>{{book.summary}}</td>
             <td>{{book.globalRating}}</td>
             <td>{{book.state.name}}</td>
-            <td>{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
             <td>
-                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
-                <a class="btn btn-warning" href="">Réserver</a>
+                <button class="btn btn-warning">Réserver</button>
             </td>
         </tr>
-    {% endfor %}
+
+        <a class="btn btn-primary" href="{{ path('app_book') }}">Retour à la liste</a>
+
     </tbody>
 </table>
 </div>
