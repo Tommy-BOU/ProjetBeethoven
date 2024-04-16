@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello BookController!{% endblock %}
+
+{% block body %}
+
+
+<div class="container">
+
+<h2>Livres disponibles</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Année de publication</th>
+            <th>Résumé</th>
+            <th>Note</th>
+            <th>État</th>
+            <th>Disponibilité</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for book in books %}
+        <tr>
+            <td><img class="listImage rounded mx-auto d-block" src="{{book.image}}" alt="image {{book.title}}"></td>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.publicationYear}}</td>
+            <td>{{book.summary}}</td>
+            <td>{{book.globalRating}} / 5</td>
+            <td>{{book.state.name}}</td>
+            <td>{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td>
+                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
+                <a class="btn btn-warning" href="">Réserver</a>
+            </td>
+        </tr>
+        
+    {% endfor %}
+
+    </tbody>
+</table>
+        <div class="d-flex justify-content-center mt-4">
+                        {{ knp_pagination_render(books, null, {}, {
+                    page:params.page|default(1)
+                })}}
+        </div>
+</div>
+{% endblock %}

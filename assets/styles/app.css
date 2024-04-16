@@ -105,3 +105,16 @@ body {
 		display: none;
 	}
 }
+.listImage {
+    width: 100px;
+    height: 100px;
+}
+
+.cardImage{
+    width: 200px;
+    height: 200px;
+}
+
+.btn{
+    margin-top: 10px;
+}
