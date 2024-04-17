@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -52,6 +54,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?int $telephone = null;
+
+    /**
+     * @var Collection<int, Borrowing>
+     */
+    #[ORM\OneToMany(targetEntity: Borrowing::class, mappedBy: 'userId', orphanRemoval: true)]
+    private Collection $borrowings;
+
+    public function __construct()
+    {
+        $this->borrowings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -140,14 +153,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPrénom(): ?string
+    public function getPrenom(): ?string
     {
-        return $this->Prénom;
+        return $this->Prenom;
     }
 
-    public function setPrénom(string $Prénom): static
+    public function setPrenom(string $Prenom): static
     {
-        $this->Prénom = $Prénom;
+        $this->Prenom = $Prenom;
 
         return $this;
     }
@@ -196,6 +209,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(int $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Borrowing>
+     */
+    public function getBorrowings(): Collection
+    {
+        return $this->borrowings;
+    }
+
+    public function addBorrowing(Borrowing $borrowing): static
+    {
+        if (!$this->borrowings->contains($borrowing)) {
+            $this->borrowings->add($borrowing);
+            $borrowing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBorrowing(Borrowing $borrowing): static
+    {
+        if ($this->borrowings->removeElement($borrowing)) {
+            // set the owning side to null (unless already changed)
+            if ($borrowing->getUser() === $this) {
+                $borrowing->setUser(null);
+            }
+        }
 
         return $this;
     }

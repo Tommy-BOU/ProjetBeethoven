@@ -39,6 +39,9 @@ class Book
     #[ORM\JoinColumn(nullable: false)]
     private ?State $state = null;
 
+    #[ORM\OneToOne(mappedBy: 'book', cascade: ['persist', 'remove'])]
+    private ?Borrowing $borrowing = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -136,6 +139,23 @@ class Book
     public function setState(?State $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getBorrowing(): ?Borrowing
+    {
+        return $this->borrowing;
+    }
+
+    public function setBorrowing(Borrowing $borrowing): static
+    {
+        // set the owning side of the relation if necessary
+        if ($borrowing->getBook() !== $this) {
+            $borrowing->setBook($this);
+        }
+
+        $this->borrowing = $borrowing;
 
         return $this;
     }

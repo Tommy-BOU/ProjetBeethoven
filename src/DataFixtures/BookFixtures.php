@@ -24,7 +24,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
             $book->setTitle($faker->words(4,true))
             ->setAuthor($faker->name)
             ->setPublicationYear($faker->year)
-            ->setSummary($faker->sentence(10))
+            ->setSummary($faker->realText(200))
             ->setImage($faker->imageUrl(640, 480, 'books', true))
             ->setAvailable($faker->boolean)
             ->setGlobalRating(0)
