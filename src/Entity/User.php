@@ -175,7 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setPrénom(string $Prénom): static
     {
-        $this->Prénom = $Prénom;
+        $this->Birthdate = $birthdate;
 
         return $this;
     }
@@ -211,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setZipCode(int $zipcode): static
     {
-        $this->zipcode = $zipcode;
+        $this->ZipCode = $zipcode;
 
         return $this;
     }

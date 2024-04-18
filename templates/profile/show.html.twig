@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+    <h1>User</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            
+            <tr>
+                <th>Password</th>
+                <td>{{ user.password }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ user.LastName }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ user.FirstName }}</td>
+            </tr>
+            {# <tr>
+                <th>Birthdate</th>
+                <td>{{ user.Birthdate ? user.Birthdate|date('Y-m-d') : '' }}</td>
+            </tr> #}
+            <tr>
+                <th>Address</th>
+                <td>{{ user.address }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ user.city }}</td>
+            </tr>
+            <tr>
+                <th>ZipCode</th>
+                <td>{{ user.ZipCode }}</td>
+            </tr>
+            <tr>
+                <th>Telephone</th>
+                <td>{{ user.telephone }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a href="{{ path('app_profile_edit') }}">edit</a>
+
+  
+{% endblock %}
