@@ -17,10 +17,27 @@
         <p>{{book.summary}}</p>
         <p>{{book.state.name}}</p>
         <p>Note : {{book.globalRating}} / 5</p>
-        <button class="btn btn-warning w-25 mx-auto">Réserver</button>
+        {% if book.available %}
+        <p style="color:green;">Livre Disponible</p>
+        <a href="{{path('app_borrow',{'id':book.id})}}" class="btn btn-warning w-25 mx-auto">Réserver</a>
+        {% else %}
+        <p style="color:orange;">Livre Indisponible</p>
+        <p>prochaine disponibilité : le {{borrowing.expectedReturnDate|date('d/m/Y')}}</p>
+        {% endif %}
         </div>
 
         <a class="btn btn-primary" href="{{ path('app_book') }}">Retour à la liste</a>
 
 </div>
+
+<script>
+    document.querySelectorAll('.btn-warning').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Êtes-vous sûr(e) de vouloir emprunter ce livre ?")) {
+                window.location.href = event.target.getAttribute('href');
+            }
+        });
+    });
+</script>
 {% endblock %}

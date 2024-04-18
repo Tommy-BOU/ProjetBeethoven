@@ -6,8 +6,56 @@
 
 
 
-<h2 class="text-center m-1 text-uppercase">Livres disponibles</h2>
+<h2 class="book-title text-center m-1 text-uppercase">Livres disponibles</h2>
+{% include "/components/_search.html.twig" with { form:formView ?? null } only %}
+{% if res is defined%}
+<h3 class="m-2">Il y a {{total|length}} {{total|length > 1 ? "livres" : "livre"}} qui {{total|length > 1 ? "correspondent" : "correspont"}} à votre recherche</h3>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Année de publication</th>
+            <th>Résumé</th>
+            <th>Note</th>
+            <th>État</th>
+            <th>Disponibilité</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for book in res %}
+        <tr>
+            <td><img class="listImage rounded mx-auto d-block" src="{{book.image}}" alt="image {{book.title}}"></td>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.publicationYear}}</td>
+            <td>{{book.summary}}</td>
+            <td>{{book.globalRating}} / 5</td>
+            <td>{{book.state.name}}</td>
+            <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td>
+                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
+                {% if (book.available) %}
+                <a class="btn btn-warning" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
+                {% endif %}
+            </td>
+        </tr>
+        
+    {% endfor %}
+
+    </tbody>
+</table>
+        <div class="d-flex justify-content-center mt-4">
+                {{ knp_pagination_render(res, null, {}, {
+                        query:params.query,
+                        page:params.page|default(1)
+                })}}
+        </div>
+
+{% else %}
 <table class="table">
     <thead>
         <tr>
@@ -32,10 +80,12 @@
             <td>{{book.summary}}</td>
             <td>{{book.globalRating}} / 5</td>
             <td>{{book.state.name}}</td>
-            <td>{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
             <td>
                 <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
-                <a class="btn btn-warning" href="">Réserver</a>
+                {% if (book.available) %}
+                <a class="btn btn-warning" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
+                {% endif %}
             </td>
         </tr>
         
@@ -48,5 +98,18 @@
                     page:params.page|default(1)
                 })}}
         </div>
+{% endif %}
+
+
+<script>
+    document.querySelectorAll('.btn-warning').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Êtes-vous sûr(e) de vouloir emprunter ce livre ?")) {
+                window.location.href = event.target.getAttribute('href');
+            }
+        });
+    });
+</script>
 
 {% endblock %}

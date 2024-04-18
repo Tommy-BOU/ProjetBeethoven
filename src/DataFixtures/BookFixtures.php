@@ -26,7 +26,7 @@ class BookFixtures extends Fixture implements DependentFixtureInterface
             ->setPublicationYear($faker->year)
             ->setSummary($faker->realText(200))
             ->setImage($faker->imageUrl(640, 480, 'books', true))
-            ->setAvailable($faker->boolean)
+            ->setAvailable(true)
             ->setGlobalRating(0)
             ->setState($faker->randomElement($states));
             $manager->persist($book);

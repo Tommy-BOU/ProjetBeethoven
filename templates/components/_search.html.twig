@@ -1,0 +1,23 @@
+{% block body %}
+
+
+    {% if form  %}
+
+        {{ form_start(form, {'attr':{'data-turbo':'false'}}) }}
+
+            {# {{ form_label(form.category, {'attr': {'class': 'btn btn-outline-primary'}}) }} #}
+            {{ form_widget(form.query) }}
+            {{ form_widget(form.envoyer) }}
+
+        {{ form_end(form) }}
+
+
+    {% endif %}
+
+
+{% endblock %}
+
+{# form.row affiche tout, 
+form.widget affiche juste l'input, 
+form.label juste le label, 
+form.errors affiche juste les erreurs #}

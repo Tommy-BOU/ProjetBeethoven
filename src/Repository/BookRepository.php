@@ -19,11 +19,11 @@ use App\Entity\Book;
  */
 class BookRepository extends ServiceEntityRepository
 {
-
-    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
+    private $searchData;
+    public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator,SearchData $searchData)
     {
         parent::__construct($registry, Book::class);
-
+        $this->searchData = $searchData;
     }
 
     public function findWithState( int $page, int $id = null,)
@@ -62,6 +62,50 @@ class BookRepository extends ServiceEntityRepository
             ->orderBy('b.title', 'ASC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function searchResult(): PaginationInterface
+    {
+        $data = $this->createQueryBuilder('b')
+        ->join('b.state', 's')
+        ->orderBy('b.title', 'ASC');
+
+        if ($this->searchData->query)
+        {
+            $data->andWhere('b.title LIKE :query')
+            // ->setParameter('query', '%' . $searchData->query . '%'); //syntaxte alternative
+            ->setParameter('query', "%{$this->searchData->query}%");
+        }
+
+        $query = $data
+            ->getQuery()
+            ->getResult();
+
+        $query = $this->paginator->paginate(
+            $query,
+            $this->searchData->page,
+            10
+        );
+        return $query;
+    }
+    public function searchResultNoPaginate()
+    {
+        $data = $this->createQueryBuilder('b')
+        ->join('b.state', 's')
+        ->orderBy('b.title', 'ASC');
+
+        if ($this->searchData->query)
+        {
+            $data->andWhere('b.title LIKE :query')
+            // ->setParameter('query', '%' . $searchData->query . '%'); //syntaxte alternative
+            ->setParameter('query', "%{$this->searchData->query}%");
+        }
+
+        $query = $data
+            ->getQuery()
+            ->getResult();
+
+        return $query;
     }
 
     //    /**
