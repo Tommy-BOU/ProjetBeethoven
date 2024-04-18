@@ -38,19 +38,22 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Name = null;
+    private ?string $LastName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Prenom = null;
+    private ?string $FirstName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_naissance = null;
+    private ?\DateTimeInterface $Birthdate = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adresse = null;
+    private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ville = null;
+    private ?string $city = null;
+    
+    #[ORM\Column]
+    private ?int $ZipCode = null;
 
     #[ORM\Column]
     private ?int $telephone = null;
@@ -141,62 +144,74 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getName(): ?string
+    public function getLastName(): ?string
     {
-        return $this->Name;
+        return $this->LastName;
     }
 
-    public function setName(string $Name): static
+    public function setLastName(string $LastName): static
     {
-        $this->Name = $Name;
+        $this->LastName = $LastName;
 
         return $this;
     }
 
-    public function getPrenom(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->Prenom;
+        return $this->FirstName;
     }
 
-    public function setPrenom(string $Prenom): static
+    public function setFirstName(string $FirstName): static
     {
-        $this->Prenom = $Prenom;
+        $this->FirstName = $FirstName;
 
         return $this;
     }
 
-    public function getDateDeNaissance(): ?\DateTimeInterface
+    public function getBirthdate(): ?\DateTimeInterface
     {
-        return $this->date_de_naissance;
+        return $this->Birthdate;
     }
 
-    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance): static
+    public function setBirthdate(\DateTimeInterface $birthdate): static
     {
-        $this->date_de_naissance = $date_de_naissance;
+        $this->birthdate = $birthdate;
 
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adresse;
+        return $this->address;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAddress(string $address): static
     {
-        $this->adresse = $adresse;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getCity(): ?string
     {
-        return $this->ville;
+        return $this->city;
     }
 
-    public function setVille(string $ville): static
+    public function setcity(string $city): static
     {
-        $this->ville = $ville;
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function ZipCode(): ?int
+    {
+        return $this->ZipCode;
+    }
+
+    public function setZipCode(int $zipcode): static
+    {
+        $this->zipcode = $zipcode;
 
         return $this;
     }
