@@ -29,7 +29,6 @@ class BookController extends AbstractController
     {
         $book = $this->bookRepository->findwithState(0,$id);
         return $this->render('book/details.html.twig', [
-            'controller_name' => 'BookController',
             'book' => $book
         ]);
     }

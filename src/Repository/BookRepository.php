@@ -2,10 +2,12 @@
 
 namespace App\Repository;
 
-use App\Entity\Book;
+use App\DTO\SearchData;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use App\Entity\Book;
 
 /**
  * @extends ServiceEntityRepository<Book>
@@ -17,9 +19,11 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class BookRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry, private PaginatorInterface $paginator)
     {
         parent::__construct($registry, Book::class);
+
     }
 
     public function findWithState( int $page, int $id = null,)
