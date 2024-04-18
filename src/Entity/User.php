@@ -175,7 +175,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setBirthdate(\DateTimeInterface $birthdate): static
     {
-        $this->birthdate = $birthdate;
+        $this->Birthdate = $birthdate;
 
         return $this;
     }
@@ -211,7 +211,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function setZipCode(int $zipcode): static
     {
-        $this->zipcode = $zipcode;
+        $this->ZipCode = $zipcode;
 
         return $this;
     }

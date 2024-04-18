@@ -43,7 +43,7 @@ class RegistrationFormType extends AbstractType
                     'class' => 'form-control'],
                 'label' => 'Adresse'
             ])
-            ->add('BirthDate',BirthdayType::class,[
+            ->add('Birthdate',BirthdayType::class,[
                 'attr' => [
                     'class' => 'form-control'],
                 'label' => 'Date de naissance'
