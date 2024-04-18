@@ -7,7 +7,7 @@
 
 <div class="container">
 
-<h2 class="text-center m-1 text-uppercase">Détails du livre</h2>
+<h2 class="book-title text-center m-1 text-uppercase">Détails du livre</h2>
 
         <div class="card text-center p-5">
         <img class="cardImage rounded mx-auto d-block" src="{{book.image}}" alt="image {{book.title}}">
@@ -19,10 +19,15 @@
         <p>Note : {{book.globalRating}} / 5</p>
         {% if book.available %}
         <p style="color:green;">Livre Disponible</p>
-        <a href="{{path('app_borrow',{'id':book.id})}}" class="btn btn-warning w-25 mx-auto">Réserver</a>
+                {% if app.user %}
+                <a href="{{path('app_borrow',{'id':book.id})}}" class="btn borrow btn-warning w-25 mx-auto">Réserver</a>
+                {% endif %}
         {% else %}
         <p style="color:orange;">Livre Indisponible</p>
         <p>prochaine disponibilité : le {{borrowing.expectedReturnDate|date('d/m/Y')}}</p>
+                {% if app.user and app.user.id == borrowing.user.id and borrowing.prolongated == false %}
+                <a href="{{path('app_extend', {'id' : borrowing.id})}}" class="extend-borrow btn btn-warning w-25 mx-auto">Étendre la durée de la réservation</a>
+                {% endif %}
         {% endif %}
         </div>
 
@@ -31,10 +36,19 @@
 </div>
 
 <script>
-    document.querySelectorAll('.btn-warning').forEach(function(element) {
+    document.querySelectorAll('.borrow').forEach(function(element) {
         element.addEventListener('click', function(event) {
             event.preventDefault();
-            if (confirm("Êtes-vous sûr(e) de vouloir emprunter ce livre ?")) {
+            if (confirm("Êtes-vous sûr(e) de vouloir réserver ce livre ?")) {
+                window.location.href = event.target.getAttribute('href');
+            }
+        });
+    });
+
+        document.querySelectorAll('.extend-borrow').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Êtes-vous sûr(e) de vouloir prolonger cet emprunt ?")) {
                 window.location.href = event.target.getAttribute('href');
             }
         });

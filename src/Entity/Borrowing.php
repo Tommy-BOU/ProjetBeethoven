@@ -31,6 +31,9 @@ class Borrowing
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 
+    #[ORM\Column]
+    private ?bool $prolongated = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Borrowing
     public function setBook(Book $book): static
     {
         $this->book = $book;
+
+        return $this;
+    }
+
+    public function isProlongated(): ?bool
+    {
+        return $this->prolongated;
+    }
+
+    public function setProlongated(bool $prolongated): static
+    {
+        $this->prolongated = $prolongated;
 
         return $this;
     }

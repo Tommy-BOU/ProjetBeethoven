@@ -21,6 +21,13 @@ class BorrowingRepository extends ServiceEntityRepository
         parent::__construct($registry, Borrowing::class);
     }
 
+    public function findNonReturned(){
+
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.finalReturnDate IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    /**
 //     * @return Borrowing[] Returns an array of Borrowing objects

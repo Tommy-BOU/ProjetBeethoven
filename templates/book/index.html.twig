@@ -8,7 +8,7 @@
 
 <h2 class="book-title text-center m-1 text-uppercase">Livres disponibles</h2>
 {% include "/components/_search.html.twig" with { form:formView ?? null } only %}
-{% if res is defined%}
+{% if res is defined %}
 <h3 class="m-2">Il y a {{total|length}} {{total|length > 1 ? "livres" : "livre"}} qui {{total|length > 1 ? "correspondent" : "correspont"}} à votre recherche</h3>
 
 <table class="table">
@@ -37,10 +37,15 @@
             <td>{{book.state.name}}</td>
             <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
             <td>
-                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
+                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir détails</a>
                 {% if (book.available) %}
                 <a class="btn btn-warning" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
                 {% endif %}
+                {% for borrowing in borrowings %}
+                    {% if (borrowing.user.id == app.user.id and borrowing.book.id == book.id and borrowing.prolongated == false) %} 
+                            <a href="{{path('app_extend', {'id' : borrowing.id})}}" class="extend-borrow btn btn-warning w-25 mx-auto">Étendre la durée de la réservation</a>
+                    {% endif %}
+                {% endfor %}
             </td>
         </tr>
         
@@ -82,10 +87,15 @@
             <td>{{book.state.name}}</td>
             <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
             <td>
-                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
-                {% if (book.available) %}
-                <a class="btn btn-warning" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
+                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir détails</a>
+                {% if (book.available) and app.user %}
+                <a class="btn btn-warning borrow" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
                 {% endif %}
+                {% for borrowing in borrowings %}
+                    {% if (app.user and borrowing.user.id == app.user.id and borrowing.book.id == book.id and borrowing.prolongated == false) %}
+                            <a href="{{path('app_extend', {'id' : borrowing.id})}}" class="extend-borrow btn btn-warning">Étendre la durée de la réservation</a>
+                    {% endif %}
+                {% endfor %}
             </td>
         </tr>
         
@@ -102,10 +112,19 @@
 
 
 <script>
-    document.querySelectorAll('.btn-warning').forEach(function(element) {
+    document.querySelectorAll('.borrow').forEach(function(element) {
         element.addEventListener('click', function(event) {
             event.preventDefault();
-            if (confirm("Êtes-vous sûr(e) de vouloir emprunter ce livre ?")) {
+            if (confirm("Êtes-vous sûr(e) de vouloir réserver ce livre ?")) {
+                window.location.href = event.target.getAttribute('href');
+            }
+        });
+    });
+
+    document.querySelectorAll('.extend-borrow').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Êtes-vous sûr(e) de vouloir prolonger cet emprunt ?")) {
                 window.location.href = event.target.getAttribute('href');
             }
         });
