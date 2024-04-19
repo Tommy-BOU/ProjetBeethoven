@@ -64,9 +64,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Borrowing::class, mappedBy: 'userId', orphanRemoval: true)]
     private Collection $borrowings;
 
+    /**
+     * @var Collection<int, RoomBooking>
+     */
+    #[ORM\OneToMany(targetEntity: RoomBooking::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $roomBookings;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $comments;
+
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $notes;
+
     public function __construct()
     {
         $this->borrowings = new ArrayCollection();
+        $this->roomBookings = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+        $this->notes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -252,6 +273,96 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($borrowing->getUser() === $this) {
                 $borrowing->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RoomBooking>
+     */
+    public function getRoomBookings(): Collection
+    {
+        return $this->roomBookings;
+    }
+
+    public function addRoomBooking(RoomBooking $roomBooking): static
+    {
+        if (!$this->roomBookings->contains($roomBooking)) {
+            $this->roomBookings->add($roomBooking);
+            $roomBooking->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoomBooking(RoomBooking $roomBooking): static
+    {
+        if ($this->roomBookings->removeElement($roomBooking)) {
+            // set the owning side to null (unless already changed)
+            if ($roomBooking->getUser() === $this) {
+                $roomBooking->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUser() === $this) {
+                $comment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getUser() === $this) {
+                $note->setUser(null);
             }
         }
 

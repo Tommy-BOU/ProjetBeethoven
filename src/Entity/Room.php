@@ -27,9 +27,16 @@ class Room
     #[ORM\ManyToMany(targetEntity: Equipment::class, mappedBy: 'Room_Equipment')]
     private Collection $equipment;
 
+    /**
+     * @var Collection<int, RoomBooking>
+     */
+    #[ORM\OneToMany(targetEntity: RoomBooking::class, mappedBy: 'room', orphanRemoval: true)]
+    private Collection $roomBookings;
+
     public function __construct()
     {
         $this->equipment = new ArrayCollection();
+        $this->roomBookings = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,6 +90,36 @@ class Room
     {
         if ($this->equipment->removeElement($equipment)) {
             $equipment->removeRoomEquipment($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RoomBooking>
+     */
+    public function getRoomBookings(): Collection
+    {
+        return $this->roomBookings;
+    }
+
+    public function addRoomBooking(RoomBooking $roomBooking): static
+    {
+        if (!$this->roomBookings->contains($roomBooking)) {
+            $this->roomBookings->add($roomBooking);
+            $roomBooking->setRoom($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoomBooking(RoomBooking $roomBooking): static
+    {
+        if ($this->roomBookings->removeElement($roomBooking)) {
+            // set the owning side to null (unless already changed)
+            if ($roomBooking->getRoom() === $this) {
+                $roomBooking->setRoom(null);
+            }
         }
 
         return $this;
