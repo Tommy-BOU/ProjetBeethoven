@@ -168,12 +168,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getPrénom(): ?string
+    public function getBirthdate(): ?\DateTimeInterface
     {
-        return $this->Prénom;
+        return $this->Birthdate;
     }
 
-    public function setPrénom(string $Prénom): static
+    public function setBirthdate(\DateTimeInterface $birthdate): static
     {
         $this->Birthdate = $birthdate;
 
