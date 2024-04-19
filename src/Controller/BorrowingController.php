@@ -56,6 +56,7 @@ class BorrowingController extends AbstractController
     {
         $borrowing = $this->borrowingRepository->findOneBy(['id' => $id]);
         $user = $this->getUser();
+        // Ignore this error. getId does exist
         if ($user->getId() == $borrowing->getUser()->getId() && $borrowing->isProlongated() == false)
         {
             $newExpectedReturnDate = new \DateTime($borrowing->getExpectedReturnDate()->format('Y-m-d H:i:s'));
