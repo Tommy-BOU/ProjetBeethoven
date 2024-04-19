@@ -2,9 +2,12 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
+use App\Entity\State;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookRepository;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -38,6 +41,27 @@ class Book
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
     private ?State $state = null;
+
+    #[ORM\OneToOne(mappedBy: 'book', cascade: ['persist', 'remove'])]
+    private ?Borrowing $borrowing = null;
+
+    /**
+     * @var Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'Book', orphanRemoval: true)]
+    private Collection $comments;
+
+    /**
+     * @var Collection<int, Note>
+     */
+    #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'Book', orphanRemoval: true)]
+    private Collection $notes;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -136,6 +160,83 @@ class Book
     public function setState(?State $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getBorrowing(): ?Borrowing
+    {
+        return $this->borrowing;
+    }
+
+    public function setBorrowing(Borrowing $borrowing): static
+    {
+        // set the owning side of the relation if necessary
+        if ($borrowing->getBook() !== $this) {
+            $borrowing->setBook($this);
+        }
+
+        $this->borrowing = $borrowing;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getBook() === $this) {
+                $comment->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Note>
+     */
+    public function getNotes(): Collection
+    {
+        return $this->notes;
+    }
+
+    public function addNote(Note $note): static
+    {
+        if (!$this->notes->contains($note)) {
+            $this->notes->add($note);
+            $note->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNote(Note $note): static
+    {
+        if ($this->notes->removeElement($note)) {
+            // set the owning side to null (unless already changed)
+            if ($note->getBook() === $this) {
+                $note->setBook(null);
+            }
+        }
 
         return $this;
     }
