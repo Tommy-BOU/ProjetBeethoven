@@ -23,9 +23,15 @@
             <li><a class="dropdown-item" href="#">Something else here</a></li>
           </ul>
         </li>
+        {% if app.user %}
+          {% for role in app.user.roles %}
+          {% if role == "ROLE_ADMIN" %}
         <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <a href="{{path('admin')}}" class="nav-link">Admin</a>
         </li>
+          {% endif %}
+          {% endfor %}
+        {% endif %}
         </ul>
 
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
