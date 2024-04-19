@@ -2,9 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\BookRepository;
+use App\Entity\State;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BookRepository;
 
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 class Book
@@ -38,6 +39,9 @@ class Book
     #[ORM\ManyToOne(inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
     private ?State $state = null;
+
+    #[ORM\OneToOne(mappedBy: 'book', cascade: ['persist', 'remove'])]
+    private ?Borrowing $borrowing = null;
 
     public function getId(): ?int
     {
@@ -136,6 +140,23 @@ class Book
     public function setState(?State $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getBorrowing(): ?Borrowing
+    {
+        return $this->borrowing;
+    }
+
+    public function setBorrowing(Borrowing $borrowing): static
+    {
+        // set the owning side of the relation if necessary
+        if ($borrowing->getBook() !== $this) {
+            $borrowing->setBook($this);
+        }
+
+        $this->borrowing = $borrowing;
 
         return $this;
     }

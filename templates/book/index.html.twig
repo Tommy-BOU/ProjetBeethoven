@@ -5,9 +5,62 @@
 {% block body %}
 
 
-<div class="container">
 
-<h2>Livres disponibles</h2>
+<h2 class="book-title text-center m-1 text-uppercase">Livres disponibles</h2>
+{% include "/components/_search.html.twig" with { form:formView ?? null } only %}
+{% if res is defined %}
+<h3 class="m-2">Il y a {{total|length}} {{total|length > 1 ? "livres" : "livre"}} qui {{total|length > 1 ? "correspondent" : "correspont"}} à votre recherche</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Image</th>
+            <th>Titre</th>
+            <th>Auteur</th>
+            <th>Année de publication</th>
+            <th>Résumé</th>
+            <th>Note</th>
+            <th>État</th>
+            <th>Disponibilité</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for book in res %}
+        <tr>
+            <td><img class="listImage rounded mx-auto d-block" src="{{book.image}}" alt="image {{book.title}}"></td>
+            <td>{{book.title}}</td>
+            <td>{{book.author}}</td>
+            <td>{{book.publicationYear}}</td>
+            <td>{{book.summary}}</td>
+            <td>{{book.globalRating}} / 5</td>
+            <td>{{book.state.name}}</td>
+            <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td>
+                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir détails</a>
+                {% if (book.available) %}
+                <a class="btn btn-warning" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
+                {% endif %}
+                {% for borrowing in borrowings %}
+                    {% if (borrowing.user.id == app.user.id and borrowing.book.id == book.id and borrowing.prolongated == false) %} 
+                            <a href="{{path('app_extend', {'id' : borrowing.id})}}" class="extend-borrow btn btn-warning w-25 mx-auto">Étendre la durée de la réservation</a>
+                    {% endif %}
+                {% endfor %}
+            </td>
+        </tr>
+        
+    {% endfor %}
+
+    </tbody>
+</table>
+        <div class="d-flex justify-content-center mt-4">
+                {{ knp_pagination_render(res, null, {}, {
+                        query:params.query,
+                        page:params.page|default(1)
+                })}}
+        </div>
+
+{% else %}
 <table class="table">
     <thead>
         <tr>
@@ -32,10 +85,17 @@
             <td>{{book.summary}}</td>
             <td>{{book.globalRating}} / 5</td>
             <td>{{book.state.name}}</td>
-            <td>{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
             <td>
-                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir plus</a>
-                <a class="btn btn-warning" href="">Réserver</a>
+                <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir détails</a>
+                {% if (book.available) and app.user %}
+                <a class="btn btn-warning borrow" href="{{path('app_borrow',{'id':book.id})}}">Réserver</a>
+                {% endif %}
+                {% for borrowing in borrowings %}
+                    {% if (app.user and borrowing.user.id == app.user.id and borrowing.book.id == book.id and borrowing.prolongated == false) %}
+                            <a href="{{path('app_extend', {'id' : borrowing.id})}}" class="extend-borrow btn btn-warning">Étendre la durée de la réservation</a>
+                    {% endif %}
+                {% endfor %}
             </td>
         </tr>
         
@@ -48,5 +108,27 @@
                     page:params.page|default(1)
                 })}}
         </div>
-</div>
+{% endif %}
+
+
+<script>
+    document.querySelectorAll('.borrow').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Êtes-vous sûr(e) de vouloir réserver ce livre ?")) {
+                window.location.href = event.target.getAttribute('href');
+            }
+        });
+    });
+
+    document.querySelectorAll('.extend-borrow').forEach(function(element) {
+        element.addEventListener('click', function(event) {
+            event.preventDefault();
+            if (confirm("Êtes-vous sûr(e) de vouloir prolonger cet emprunt ?")) {
+                window.location.href = event.target.getAttribute('href');
+            }
+        });
+    });
+</script>
+
 {% endblock %}

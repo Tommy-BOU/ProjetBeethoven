@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -36,22 +38,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Name = null;
+    private ?string $LastName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Prenom = null;
+    private ?string $FirstName = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $date_de_naissance = null;
+    private ?\DateTimeInterface $Birthdate = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $adresse = null;
+    private ?string $address = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $ville = null;
+    private ?string $city = null;
+    
+    #[ORM\Column]
+    private ?int $ZipCode = null;
 
     #[ORM\Column]
     private ?int $telephone = null;
+
+    /**
+     * @var Collection<int, Borrowing>
+     */
+    #[ORM\OneToMany(targetEntity: Borrowing::class, mappedBy: 'userId', orphanRemoval: true)]
+    private Collection $borrowings;
+
+    public function __construct()
+    {
+        $this->borrowings = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -128,62 +144,74 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
-    public function getName(): ?string
+    public function getLastName(): ?string
     {
-        return $this->Name;
+        return $this->LastName;
     }
 
-    public function setName(string $Name): static
+    public function setLastName(string $LastName): static
     {
-        $this->Name = $Name;
+        $this->LastName = $LastName;
 
         return $this;
     }
 
-    public function getPrénom(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->Prénom;
+        return $this->FirstName;
     }
 
-    public function setPrénom(string $Prénom): static
+    public function setFirstName(string $FirstName): static
     {
-        $this->Prénom = $Prénom;
+        $this->FirstName = $FirstName;
 
         return $this;
     }
 
-    public function getDateDeNaissance(): ?\DateTimeInterface
+    public function getBirthdate(): ?\DateTimeInterface
     {
-        return $this->date_de_naissance;
+        return $this->Birthdate;
     }
 
-    public function setDateDeNaissance(\DateTimeInterface $date_de_naissance): static
+    public function setBirthdate(\DateTimeInterface $birthdate): static
     {
-        $this->date_de_naissance = $date_de_naissance;
+        $this->Birthdate = $birthdate;
 
         return $this;
     }
 
-    public function getAdresse(): ?string
+    public function getAddress(): ?string
     {
-        return $this->adresse;
+        return $this->address;
     }
 
-    public function setAdresse(string $adresse): static
+    public function setAddress(string $address): static
     {
-        $this->adresse = $adresse;
+        $this->address = $address;
 
         return $this;
     }
 
-    public function getVille(): ?string
+    public function getCity(): ?string
     {
-        return $this->ville;
+        return $this->city;
     }
 
-    public function setVille(string $ville): static
+    public function setcity(string $city): static
     {
-        $this->ville = $ville;
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function ZipCode(): ?int
+    {
+        return $this->ZipCode;
+    }
+
+    public function setZipCode(int $zipcode): static
+    {
+        $this->ZipCode = $zipcode;
 
         return $this;
     }
@@ -196,6 +224,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setTelephone(int $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Borrowing>
+     */
+    public function getBorrowings(): Collection
+    {
+        return $this->borrowings;
+    }
+
+    public function addBorrowing(Borrowing $borrowing): static
+    {
+        if (!$this->borrowings->contains($borrowing)) {
+            $this->borrowings->add($borrowing);
+            $borrowing->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBorrowing(Borrowing $borrowing): static
+    {
+        if ($this->borrowings->removeElement($borrowing)) {
+            // set the owning side to null (unless already changed)
+            if ($borrowing->getUser() === $this) {
+                $borrowing->setUser(null);
+            }
+        }
 
         return $this;
     }

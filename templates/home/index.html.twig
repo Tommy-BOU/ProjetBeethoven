@@ -4,26 +4,6 @@
 
 {% block body %}
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-		<div class="container">
-			<a class="navbar-brand" href="#">Bibliothèque Beethoven</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
-				<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-					
-					<li class="nav-item">
-						<a class="nav-link" href="#">Inscription</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Connexion</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Contact</a>
-					</li>
-					
-				</ul>
-			</div>
-		</div>
-	</nav>
 	<div class="carousel slide" data-bs-ride="carousel" id="carouselExampleIndicators">
 		<div class="carousel-indicators">
 			<button aria-label="Slide 1" class="active" data-bs-slide-to="0" data-bs-target="#carouselExampleIndicators" type="button"></button> <button aria-label="Slide 2" data-bs-slide-to="1" data-bs-target="#carouselExampleIndicators" type="button"></button> <button aria-label="Slide 3" data-bs-slide-to="2" data-bs-target="#carouselExampleIndicators" type="button"></button>
@@ -34,7 +14,7 @@
 				<div class="carousel-caption">
 					<h5 class="animated fadeInDown" style="animation-delay: 3s">Biblio Beethoven</h5>
 					<p class="animated fadeInUp d-none d-md-block" style="animation-delay: 3s">Le Paradis des bibliophiles.</p>
-					<p class="animated fadeInUp" style="animation-delay: 3s"><a href="#">Inscription</a></p>
+					<p class="animated fadeInUp" style="animation-delay: 3s"><a href={{ path('app_register')}}>Inscription</a></p>
 				</div>
 			</div>
 			
@@ -43,7 +23,7 @@
 				<div class="carousel-caption">
 					<h5 class="animated fadeInDown" style="animation-delay: 1s">Biblio Beethoven</h5>
 					<p class="animated fadeInUp d-none d-md-block" style="animation-delay: 2s">Salles de réunions et d'études à votre disposition! </p>
-					<p class="animated fadeInUp" style="animation-delay: 3s"><a href="#">Inscription</a></p>
+					<p class="animated fadeInUp" style="animation-delay: 3s"><a href={{ path('app_register')}}>Inscription</a></p>
 				</div>
 			</div>
 		</div><button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleIndicators" type="button"><span aria-hidden="true" class="carousel-control-prev-icon"></span> <span class="visually-hidden">Previous</span></button> <button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleIndicators" type="button"><span aria-hidden="true" class="carousel-control-next-icon"></span> <span class="visually-hidden">Next</span></button>
