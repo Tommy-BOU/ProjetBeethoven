@@ -1,12 +1,26 @@
+
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit User{% endblock %}
+{% block title %}Modification de profil{% endblock %}
 
 {% block body %}
-    <h1>Edit User</h1>
+<section class ="container">
+    <div class ="container">
+        <div class="row">
+            <div class ="col">
 
-    {{ include('profile/_form.html.twig', {'button_label': 'Update'}) }}
+<br><br><br>
+    <h1>Changer vos informations personelles</h1>
+    
+<br><br>
 
-    <a href="{{ path('app_profile_show') }}">back to profile</a>
+    {{ include('profile/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+    <a href="{{ path('app_profile_show') }}">Revenir au profil</a>
+
+</div>
+</div>
+</div>
+</section>
 
 {% endblock %}

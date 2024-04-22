@@ -29,3 +29,4 @@ final class Version20240422191439 extends AbstractMigration
         $this->addSql('DROP TABLE calendar');
     }
 }
+

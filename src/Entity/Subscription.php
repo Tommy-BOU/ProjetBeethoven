@@ -15,51 +15,89 @@ class Subscription
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
-    #[ORM\Column]
-    private ?float $price = null;
+    private ?string $stripeId = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $subscriptionDate = null;
+    private ?\DateTimeInterface $currentPeriodStart = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $currentPeriodEnd = null;
+
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTime();   
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getStripeId(): ?string
     {
-        return $this->type;
+        return $this->stripeId;
     }
 
-    public function setType(string $type): static
+    public function setStripeId(string $stripeId): self
     {
-        $this->type = $type;
+        $this->stripeId = $stripeId;
 
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getCurrentPeriodStart(): ?\DateTimeInterface
     {
-        return $this->price;
+        return $this->currentPeriodStart;
     }
 
-    public function setPrice(float $price): static
+    public function setCurrentPeriodStart(\DateTimeInterface $currentPeriodStart): self
     {
-        $this->price = $price;
+        $this->currentPeriodStart = $currentPeriodStart;
 
         return $this;
     }
 
-    public function getSubscriptionDate(): ?\DateTimeInterface
+    public function getCurrentPeriodEnd(): ?\DateTimeInterface
     {
-        return $this->subscriptionDate;
+        return $this->currentPeriodEnd;
     }
 
-    public function setSubscriptionDate(\DateTimeInterface $subscriptionDate): static
+    public function setCurrentPeriodEnd(\DateTimeInterface $currentPeriodEnd): self
     {
-        $this->subscriptionDate = $subscriptionDate;
+        $this->currentPeriodEnd = $currentPeriodEnd;
+
+        return $this;
+    }
+
+    public function isIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    public function setIsActive(bool $isActive): self
+    {
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
