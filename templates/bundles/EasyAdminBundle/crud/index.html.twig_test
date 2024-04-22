@@ -1,0 +1,10 @@
+{% extends '@!EasyAdmin/layout.html.twig' %}
+
+{% block body %}
+{# admin/field/expected_return_date.html.twig #}
+{% if field.value < 'now'|date() %}
+    <span class="text-danger">{{ field.value }}</span>
+{% else %}
+    <span>{{ field.value }}</span>
+{% endif %}
+{% endblock %}

@@ -38,7 +38,7 @@ class Book
     #[ORM\Column]
     private ?float $globalRating = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(targetEntity: State::class, inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
     private ?State $state = null;
 
@@ -164,6 +164,18 @@ class Book
         return $this;
     }
 
+//     public function addState(State $state) : void
+// {
+//     $state->addBook($this);
+//     $this->setState($state);
+// }
+
+// public function removeState(State $state) : void
+// {
+//     $state->removeBook($this);
+//     $this->setState(null);
+// } 
+
     public function getBorrowing(): ?Borrowing
     {
         return $this->borrowing;
@@ -240,4 +252,10 @@ class Book
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
 }

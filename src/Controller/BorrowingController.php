@@ -17,7 +17,7 @@ class BorrowingController extends AbstractController
 
     }
 
-    #[Route('/borrow/{id}', name: 'app_borrow')]
+    #[Route('/profile/borrow/{id}', name: 'app_borrow')]
     public function borrow(int $id): Response
     {
         $borrowing = new Borrowing();
@@ -51,7 +51,7 @@ class BorrowingController extends AbstractController
 
     }
 
-    #[Route('/extend/{id}', name: 'app_extend')]
+    #[Route('/profile/extend/{id}', name: 'app_extend')]
     public function extendBorrow(int $id): Response
     {
         $borrowing = $this->borrowingRepository->findOneBy(['id' => $id]);
