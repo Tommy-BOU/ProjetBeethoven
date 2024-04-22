@@ -29,6 +29,46 @@ class BorrowingRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findByUser($id)
+
+    {
+
+
+        return $this->createQueryBuilder('b')
+
+            ->join('b.book', 'book')
+   
+            ->andWhere('b.user = :val')
+
+            ->setParameter('val', $id)
+            
+            ->getQuery()
+
+            ->getResult();
+
+
+    }
+    public function findReturnedByUser($id)
+
+    {
+
+
+        return $this->createQueryBuilder('b')
+
+            ->join('b.book', 'book')
+
+            ->andWhere('b.user = :val')
+
+            ->setParameter('val', $id)
+
+            ->andWhere('b.finalReturnDate IS NOT NULL')
+
+            ->getQuery()
+
+            ->getResult();
+
+    }
+
 //    /**
 //     * @return Borrowing[] Returns an array of Borrowing objects
 //     */

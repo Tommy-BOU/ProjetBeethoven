@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h2>Paiement Réussi!</h2>
+    <p>Votre abonnement {{ subscriptionType }} a été traité avec succès.</p>
+    <a href="{{ path('app_home') }}" class="btn btn-primary">Retour à l'accueil</a>
+</div>
+
+
+{% endblock %}
