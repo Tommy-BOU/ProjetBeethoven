@@ -6,6 +6,7 @@ use App\Entity\Book;
 use App\Entity\Room;
 use App\Entity\User;
 use App\Entity\Comment;
+use App\Entity\Borrowing;
 use App\Entity\Equipment;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -50,14 +51,15 @@ class DashboardController extends AbstractDashboardController
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
         MenuItem::section('Books'),
         MenuItem::linkToCrud('Books', 'fa fa-tags', Book::class),
-        MenuItem::linkToCrud('Comments', 'fa fa-file-text', Comment::class),
+        MenuItem::linkToCrud('Borrowings', 'fa fa-tags', Borrowing::class),
+        MenuItem::linkToCrud('Comments', 'fa fa-comment', Comment::class),
 
         MenuItem::section('Users'),
-        MenuItem::linkToCrud('Users', 'fa fa-comment', User::class),
+        MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
 
         MenuItem::section('Rooms'),
-        MenuItem::linkToCrud('Rooms', 'fa fa-user', Room::class),
-        MenuItem::linkToCrud('Equipements', 'fa fa-user', Equipment::class),
+        MenuItem::linkToCrud('Rooms', 'fa fa-tags', Room::class),
+        MenuItem::linkToCrud('Equipements', 'fa fa-tags', Equipment::class),
         ];
     }
     
