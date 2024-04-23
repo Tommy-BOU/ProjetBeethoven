@@ -25,7 +25,7 @@ class DashboardController extends AbstractDashboardController
         // Option 1. You can make your dashboard redirect to some common page of your backend
         
         $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        return $this->redirect($adminUrlGenerator->setController(BookCrudController::class)->generateUrl());
+        return $this->redirect($adminUrlGenerator->setController(BorrowingCrudController::class)->generateUrl());
 
         // Option 2. You can make your dashboard redirect to different pages depending on the user
         //
@@ -49,16 +49,17 @@ class DashboardController extends AbstractDashboardController
     {
         return [ 
         // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
-        MenuItem::section('Books'),
-        MenuItem::linkToCrud('Books', 'fa fa-tags', Book::class),
-        MenuItem::linkToCrud('Borrowings', 'fa fa-tags', Borrowing::class),
-        MenuItem::linkToCrud('Comments', 'fa fa-comment', Comment::class),
+        MenuItem::linkToRoute('Retour au site', 'fa fa-home', 'home'),
+        MenuItem::section('Livres'),
+        MenuItem::linkToCrud('Emprunts', 'fa fa-tags', Borrowing::class),
+        MenuItem::linkToCrud('Livres', 'fa fa-tags', Book::class),
+        MenuItem::linkToCrud('Commentaires', 'fa fa-comment', Comment::class),
 
-        MenuItem::section('Users'),
-        MenuItem::linkToCrud('Users', 'fa fa-user', User::class),
+        MenuItem::section('Utilisateurs'),
+        MenuItem::linkToCrud('Utilisateurs', 'fa fa-user', User::class),
 
-        MenuItem::section('Rooms'),
-        MenuItem::linkToCrud('Rooms', 'fa fa-tags', Room::class),
+        MenuItem::section('Salles'),
+        MenuItem::linkToCrud('Salles', 'fa fa-tags', Room::class),
         MenuItem::linkToCrud('Equipements', 'fa fa-tags', Equipment::class),
         ];
     }

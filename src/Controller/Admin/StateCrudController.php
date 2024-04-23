@@ -21,7 +21,7 @@ class StateCrudController extends AbstractCrudController
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
+            IntegerField::new('id'),
             TextField::new('name'),
             AssociationField::new('books')->setFormTypeOption('choice_label', 'name')
                 ->setFormTypeOption('by_reference', false),
