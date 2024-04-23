@@ -34,9 +34,9 @@ class BorrowingRepository extends ServiceEntityRepository
     {
 
         return $this->createQueryBuilder('b')
-            ->andWhere('b.userId = :val')
+            ->andWhere('b.user = :val')
             ->setParameter('val', $id)
-            ->join('b.bookId', 'book')
+            ->join('b.book', 'book')
             ->getQuery()
             ->getResult();
     }
