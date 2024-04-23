@@ -27,7 +27,7 @@ class Borrowing
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    #[ORM\OneToOne(inversedBy: 'borrowing', cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(inversedBy: 'borrowing')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Book $book = null;
 
@@ -110,4 +110,5 @@ class Borrowing
 
         return $this;
     }
+
 }

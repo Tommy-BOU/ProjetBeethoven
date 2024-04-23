@@ -1,0 +1,3 @@
+{# admin/field/date_expected_return.html.twig #}
+
+<time class="{{field.formattedValue|date("Y-m-d") < 'now'|date("Y-m-d") ? "text-danger" : ""}} " datetime="{{ field.value|date('c') }}" title="{{ field.value|date('r') }}">{{ field.formattedValue }}</time>

@@ -27,18 +27,27 @@ class BookCrudController extends AbstractCrudController
         return Book::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Livre')
+            ->setEntityLabelInPlural('Livres')
+            ->setSearchFields(['id', 'title', 'author', 'state.name', 'publicationYear', 'globalRating', 'available'])
+            ->setDefaultSort(['id' => 'ASC']);
+    }
+
 
     public function configureFields(string $pageName): iterable
     {
         return [
-            IdField::new('id'),
-            TextField::new('author'),
-            IntegerField::new('publicationYear'),
-            TextField::new('title'),
-            TextField::new('image'),
-            AssociationField::new('state'),
-            BooleanField::new('available')->renderAsSwitch(false),
-            NumberField::new('globalRating'),
+            IntegerField::new('id')->hideOnForm(),
+            TextField::new('author','Auteur'),
+            IntegerField::new('publicationYear', 'Année de publication'),
+            TextField::new('title', 'Titre'),
+            TextField::new('image', 'Image'),
+            AssociationField::new('state', 'État'),
+            BooleanField::new('available', 'Disponible')->renderAsSwitch(false),
+            NumberField::new('globalRating', 'Note globale'),
 
         ];
     }

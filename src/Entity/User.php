@@ -376,6 +376,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         return $this->FirstName . ' ' . $this->LastName;
     }
+    
     public function getStripeId(): ?string
     {
         return $this->stripeId;
