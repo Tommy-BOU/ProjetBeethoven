@@ -30,6 +30,21 @@ class UserFixtures extends Fixture
             $manager->persist($user);
         }
 
+        $admin = new User();
+        $admin->setEmail('admin@admin.com')
+        ->setRoles(['ROLE_ADMIN', 'ROLE_USER'])
+        ->setPassword('admin')
+        ->setFirstName('admin')
+        ->setLastName('admin')
+        ->setAddress('admin')
+        ->setCity('admin')
+        ->setZipCode('69420')
+        ->setTelephone('0000000000')
+        ->setBirthdate($faker->dateTime('now'))
+        ->setStripeId(000000000);
+
+        $manager->persist($admin);
+
         $manager->flush();
     }
 }
