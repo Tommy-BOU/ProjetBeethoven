@@ -54,19 +54,20 @@ class BorrowingCrudController extends AbstractCrudController
                 return $value->format('d-m-Y');
             });
 
+            yield DateTimeField::new('finalReturnDate', 'Date de retour finale')->formatValue(function ($value) {
+                if ($value === null) {
+                    return null;
+                } else {
+                    return $value->format('d-m-Y');
+                }
+            });
+            
         yield DateTimeField::new('expectedReturnDate', 'Date de retour prévu')->formatValue(function ($value) {
             return $value->format('d-m-Y');
-        })
-            ->setTemplatePath('admin/field/date_expected_return.html.twig');
-
-
-        yield DateTimeField::new('finalReturnDate', 'Date de retour finale')->formatValue(function ($value) {
-            if ($value === null) {
-                return null;
-            } else {
-                return $value->format('d-m-Y');
-            }
         });
+            // ->setTemplatePath('admin/field/date_expected_return.html.twig');
+
+
     }
 
     public function configureActions(Actions $actions): Actions

@@ -1,0 +1,28 @@
+{% extends '@!EasyAdmin/crud/index.html.twig' %}
+
+{% block fieldsForLoop %}
+
+                        {% for field in entity.fields %}
+
+
+                            {% set is_searchable = null == ea.crud.searchFields or field.property in ea.crud.searchFields %}
+                            {% if (field.property == 'expectedReturnDate' and field.formattedValue|date("Y-m-d") < 'now'|date("Y-m-d") and isReturned == false) %}
+                            <td class="text-danger" data-column="{{ field.property }}" data-label="{{ field.label|trans|e('html_attr') }}" class="{{ is_searchable ? 'searchable' }} {{ field.property == sort_field_name ? 'sorted' }} text-{{ field.textAlign }} {{ field.cssClass }}" dir="{{ ea.i18n.textDirection }}">
+                                {{ include(field.templatePath, { field: field, entity: entity }, with_context = false) }}
+                            </td>
+                            {% else %}
+                            <td data-column="{{ field.property }}" data-label="{{ field.label|trans|e('html_attr') }}" class="{{ is_searchable ? 'searchable' }} {{ field.property == sort_field_name ? 'sorted' }} text-{{ field.textAlign }} {{ field.cssClass }}" dir="{{ ea.i18n.textDirection }}">
+                                {{ include(field.templatePath, { field: field, entity: entity }, with_context = false) }}
+                            </td>
+                            {% endif %}
+
+                            {% if field.property == 'finalReturnDate' and field.value == null %} 
+                            {% set isReturned = false %} 
+                            {% else %} 
+                            {% set isReturned = true %} 
+                            {% endif %}
+
+                        {% endfor %}
+
+
+{% endblock %}
