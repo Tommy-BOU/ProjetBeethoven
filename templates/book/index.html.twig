@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BookController!{% endblock %}
+{% block title %}Nos livres{% endblock %}
 
 {% block body %}
 
@@ -35,7 +35,7 @@
             <td>{{book.summary}}</td>
             <td>{{book.globalRating}} / 5</td>
             <td>{{book.state.name}}</td>
-            <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td><p style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</p> {% for borrowing in borrowings %} <p style="font-size: 0.8em" > {% if borrowing.book.id == book.id %} {{book.available == 0 ? "Prochaine disponibilité : " ~ borrowing.expectedReturnDate|date('d/m/Y') : ""}} {% endif %} </p> {% endfor %} </td>
             <td>
                 <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir détails</a>
                 {% if (book.available) %}
@@ -85,7 +85,7 @@
             <td>{{book.summary}}</td>
             <td>{{book.globalRating}} / 5</td>
             <td>{{book.state.name}}</td>
-            <td style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</td>
+            <td><p style="{{book.available == 0 ? "color:orange" : "color:green"}}">{{book.available == 0 ? "Indisponible" : "Disponible"}}</p> {% for borrowing in borrowings %} <p style="font-size: 0.8em" > {% if borrowing.book.id == book.id %} {{book.available == 0 ? "Prochaine disponibilité : " ~ borrowing.expectedReturnDate|date('d/m/Y') : ""}} {% endif %} </p> {% endfor %} </td>
             <td>
                 <a class="btn btn-primary" href="{{path('app_details', {'id': book.id})}}">Voir détails</a>
                 {% if (book.available) and app.user %}

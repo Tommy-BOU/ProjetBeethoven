@@ -82,6 +82,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'User', orphanRemoval: true)]
     private Collection $notes;
 
+    #[ORM\Column(length: 255)]
+    private ?string $stripeId = null;
+
     public function __construct()
     {
         $this->borrowings = new ArrayCollection();
@@ -134,7 +137,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @param list<string> $roles
      */
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
         $this->roles = $roles;
 
@@ -365,6 +368,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $note->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->FirstName . ' ' . $this->LastName;
+    }
+    
+    public function getStripeId(): ?string
+    {
+        return $this->stripeId;
+    }
+
+    public function setStripeId(string $stripeId): self
+    {
+        $this->stripeId = $stripeId;
 
         return $this;
     }

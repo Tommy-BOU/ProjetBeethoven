@@ -15,4 +15,12 @@ class RoomController extends AbstractController
             'controller_name' => 'RoomController',
         ]);
     }
+    #[Route('/room', name: 'app_room_details')]
+    public function details(): Response
+    {
+        return $this->render('room/details.html.twig', [
+            'controller_name' => 'RoomController',
+        ]);
+    }
+    
 }

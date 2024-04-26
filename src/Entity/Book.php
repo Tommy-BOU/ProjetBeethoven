@@ -38,12 +38,9 @@ class Book
     #[ORM\Column]
     private ?float $globalRating = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\ManyToOne(targetEntity: State::class, inversedBy: 'books')]
     #[ORM\JoinColumn(nullable: false)]
     private ?State $state = null;
-
-    #[ORM\OneToOne(mappedBy: 'book', cascade: ['persist', 'remove'])]
-    private ?Borrowing $borrowing = null;
 
     /**
      * @var Collection<int, Comment>
@@ -57,10 +54,17 @@ class Book
     #[ORM\OneToMany(targetEntity: Note::class, mappedBy: 'Book', orphanRemoval: true)]
     private Collection $notes;
 
+    /**
+     * @var Collection<int, Borrowing>
+     */
+    #[ORM\OneToMany(targetEntity: Borrowing::class, mappedBy: 'book', orphanRemoval: true)]
+    private Collection $borrowing;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->notes = new ArrayCollection();
+        $this->borrowing = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,23 +168,6 @@ class Book
         return $this;
     }
 
-    public function getBorrowing(): ?Borrowing
-    {
-        return $this->borrowing;
-    }
-
-    public function setBorrowing(Borrowing $borrowing): static
-    {
-        // set the owning side of the relation if necessary
-        if ($borrowing->getBook() !== $this) {
-            $borrowing->setBook($this);
-        }
-
-        $this->borrowing = $borrowing;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Comment>
      */
@@ -240,4 +227,40 @@ class Book
 
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->title;
+    }
+
+    /**
+     * @return Collection<int, Borrowing>
+     */
+    public function getBorrowing(): Collection
+    {
+        return $this->borrowing;
+    }
+
+    public function addBorrowing(Borrowing $borrowing): static
+    {
+        if (!$this->borrowing->contains($borrowing)) {
+            $this->borrowing->add($borrowing);
+            $borrowing->setBook($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBorrowing(Borrowing $borrowing): static
+    {
+        if ($this->borrowing->removeElement($borrowing)) {
+            // set the owning side to null (unless already changed)
+            if ($borrowing->getBook() === $this) {
+                $borrowing->setBook(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

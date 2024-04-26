@@ -13,105 +13,140 @@
 </div>
 
 
-<table class="table">
+
+    <div class="row row-cols-1 row-cols-md-4 g-4">
+  <div class="col">
+    <div class="card h-100">
+      <img alt="..." class="card-img-top" src="https://i.postimg.cc/t49WWhpg/20945842.jpg">
+      <div class="card-body">
+        <h5 class="card-title">Vos coordonnées</h5>
+        <table class="table">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
+             <tr>
+                <th>Prénom</th>
+                <td>{{ user.FirstName }}</td>
+            </tr>
+              <tr>
+                <th>Nom</th>
+                <td>{{ user.LastName }}</td>
+            </tr>
+             <tr>
+                <th>Adresse</th>
+                <td>{{ user.address }}</td>
+            </tr>
+             <tr>
+                <th>Ville</th>
+                <td>{{ user.city }}</td>
             </tr>
             <tr>
+                <th>Code Postal</th>
+                <td>{{ user.ZipCode }}</td>
+            </tr>
+             <tr>
+                <th>Telephone</th>
+                <td>{{ user.telephone }}</td>
+            </tr>
+             <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>
             
             <tr>
-                <th>Password</th>
-                <td>{{ user.password }}</td>
+                <th>Mot de passe</th>
+                <td>{{ "********"}}</td>
             </tr>
-            <tr>
-                <th>LastName</th>
-                <td>{{ user.LastName }}</td>
-            </tr>
-            <tr>
-                <th>FirstName</th>
-                <td>{{ user.FirstName }}</td>
-            </tr>
-            {# <tr>
-                <th>Birthdate</th>
-                <td>{{ user.Birthdate ? user.Birthdate|date('Y-m-d') : '' }}</td>
-            </tr> #}
-            <tr>
-                <th>Address</th>
-                <td>{{ user.address }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ user.city }}</td>
-            </tr>
-            <tr>
-                <th>ZipCode</th>
-                <td>{{ user.ZipCode }}</td>
-            </tr>
-            <tr>
-                <th>Telephone</th>
-                <td>{{ user.telephone }}</td>
-            </tr>
+          
         </tbody>
     </table>
-
-    <div class="row row-cols-1 row-cols-md-4 g-4">
-  <div class="col">
-    <div class="card h-100">
-      <img alt="..." class="card-img-top" src="https://i.postimg.cc/bvPy510V/ouvrir-voler-vieux-livres.jpg">
-      <div class="card-body">
-        <h5 class="card-title">Vos coordonnées</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-      </div>
       <div class="card-footer">
-        <a href="#" class="btn btn-primary">Editer</a>
+        <a class="btn btn-warning" href="{{ path('app_profile_edit') }}">Editer</a>
       </div>
+
+      </div>
+     
     </div>
   </div>
   <div class="col">
     <div class="card h-100">
-       <img alt="..." class="card-img-top" src="https://i.postimg.cc/bvPy510V/ouvrir-voler-vieux-livres.jpg">
+       <img alt="..." class="card-img-top" src="https://i.postimg.cc/dtMwgm0t/book-library-with-open-textbook.jpg">
       <div class="card-body">
         <h5 class="card-title">Vos livres</h5>
-        <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
+            {% for borrowing in borrowings %}
+              <table class="table table-striped">
+              <thead>
+                <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Date de retour</th>
+                <a href="{{path('app_extend', {'id' : borrowing.id})}}" class="extend-borrow btn btn-secondary w-15 mx-auto">Étendre la durée de la réservation</a>
+                </tr>
+              </thead>
+                  <tbody>
+                    <tr>
+                    <td>{{ borrowing.book.title }}</td>
+                    <td>{{borrowing.expectedReturnDate|date('d/m/Y')}}</td>
+                    {% endfor %}
+                    </tr>
+                  </tbody>
+              </table>
+<hr>
+
+        <h5 >Historique de vos emprunts</h5>
+            {% for history in historyborrowings %}
+                <table class="table table-striped">
+              <thead>
+                <tr>
+                <th scope="col">Titre</th>
+                </tr>
+              </thead>
+               <tbody>
+                    <tr>
+                    <td>{{ history.book.title }}</td>
+                     {% endfor %}
+                   </tr>
+                </tbody>
+                </table>
       </div>
       <div class="card-footer">
-        <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
     </div>
   </div>
   <div class="col">
     <div class="card h-100">
-      <img alt="..." class="card-img-top" src="https://i.postimg.cc/bvPy510V/ouvrir-voler-vieux-livres.jpg">
+      <img alt="..." class="card-img-top" src="https://i.postimg.cc/pL80sQFM/contemporary-business-wireless-technology-wooden-concept.jpg">
       <div class="card-body">
         <h5 class="card-title">Vos salles</h5>
         <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This card has even longer content than the first to show that equal height action.</p>
       </div>
       <div class="card-footer">
-        <a href="#" class="btn btn-primary">Go somewhere</a>
       </div>
     </div>
   </div>
   <div class="col">
     <div class="card h-100">
-       <img alt="..." class="card-img-top" src="https://i.postimg.cc/bvPy510V/ouvrir-voler-vieux-livres.jpg">
+       <img alt="..." class="card-img-top" src="https://i.postimg.cc/CK7ZJrC2/main-cliquant-bouton-inscription-medias-sociaux.jpg">
       <div class="card-body">
         <h5 class="card-title">Votre abonnement</h5>
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+        <p class="card-text">Pour emprunter des livres ou louer des salles, il faut vous abonner!</p>
+
+
+                  <div class="d-grid gap-2 col-6 mx-auto">
+                  <a href="{{ path('subscription_stripe', {'type': 'monthly'}) }}" class="btn btn-success">Abonnement Mensuel 23.99 Euros</a>
+                  <a href="{{ path('subscription_stripe', {'type': 'yearly'}) }}" class="btn btn-success">Abonnement Annuel 259.10 Euros</a>
+                  <br><br>
+
+
+                  {% if subscriptions != null %}
+                  <p> vous êtes abonné jusqu'au{{ subscriptions.currentPeriodEnd|date('d-m-Y') }}</p>
+                  {% endif %}
+                  </div>
+
+                
       </div>
+         
       <div class="card-footer">
-        <a href="#" class="btn btn-primary">Editer</a>
+
       </div>
     </div>
   </div>
 </div>
-
-
-    <a href="{{ path('app_profile_edit') }}">edit</a>
-
-  
 {% endblock %}

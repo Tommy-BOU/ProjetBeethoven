@@ -14,52 +14,73 @@ class Subscription
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $type = null;
-
-    #[ORM\Column]
-    private ?float $price = null;
+    
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $currentPeriodStart = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $subscriptionDate = null;
+    private ?\DateTimeInterface $currentPeriodEnd = null;
+
+    #[ORM\Column]
+    private ?bool $isActive = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+   
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getType(): ?string
+    public function getCurrentPeriodStart(): ?\DateTimeInterface
     {
-        return $this->type;
+        return $this->currentPeriodStart;
     }
 
-    public function setType(string $type): static
+    public function setCurrentPeriodStart(\DateTimeInterface $currentPeriodStart): self
     {
-        $this->type = $type;
+        $this->currentPeriodStart = $currentPeriodStart;
 
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getCurrentPeriodEnd(): ?\DateTimeInterface
     {
-        return $this->price;
+        return $this->currentPeriodEnd;
     }
 
-    public function setPrice(float $price): static
+    public function setCurrentPeriodEnd(\DateTimeInterface $currentPeriodEnd): self
     {
-        $this->price = $price;
+        $this->currentPeriodEnd = $currentPeriodEnd;
 
         return $this;
     }
 
-    public function getSubscriptionDate(): ?\DateTimeInterface
+    public function isIsActive(): ?bool
     {
-        return $this->subscriptionDate;
+        return $this->isActive;
     }
 
-    public function setSubscriptionDate(\DateTimeInterface $subscriptionDate): static
+    public function setIsActive(bool $isActive): self
     {
-        $this->subscriptionDate = $subscriptionDate;
+        $this->isActive = $isActive;
+
+        return $this;
+    }
+
+    
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }
