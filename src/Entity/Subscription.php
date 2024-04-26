@@ -14,9 +14,7 @@ class Subscription
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $stripeId = null;
-
+    
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $currentPeriodStart = null;
 
@@ -30,26 +28,11 @@ class Subscription
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
-    public function __construct()
-    {
-        $this->createdAt = new \DateTime();   
-    }
+   
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getStripeId(): ?string
-    {
-        return $this->stripeId;
-    }
-
-    public function setStripeId(string $stripeId): self
-    {
-        $this->stripeId = $stripeId;
-
-        return $this;
     }
 
     public function getCurrentPeriodStart(): ?\DateTimeInterface
