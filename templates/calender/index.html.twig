@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block body %}
-{{dump(data)}}
+
 <div id="calendrier"></div>
 {% endblock %}
 
@@ -25,10 +25,10 @@ window.onload=()=>{
        initialView: 'timeGridWeek',
        locale: 'fr',
        timeZone:'Europe/Paris',
-       slotMinTime: "08:00:00",
-       slotMaxTime: "20:00:00",
-       weekends: false,
-       slotDuration: '01:00:00',
+       slotMinTime: "08:00:00", 
+       slotMaxTime: "19:00:00", 
+       hiddenDays: [ 0, 6 ], 
+       slotDuration: '01:00:00', 
        headerToolbar: {
        start: 'prev,next today',
        center: 'title',
@@ -40,7 +40,18 @@ window.onload=()=>{
     })
 
     calendar.on('eventChange', (e)=> {
-      consol.log(e)
+      let duration = e.event.end - e.event.start;
+
+     
+      let durationInHours = duration / 1000 / 60 / 60;
+
+      
+      if (durationInHours < 1 || durationInHours > 4) {
+       
+        e.revert();
+      }
+
+      console.log(e)
     })
 
     calendar.render()

@@ -25,7 +25,7 @@ class CalenderController extends AbstractController
                 'description' => $event->getDescription(),
                 'backgroundColor' => $event->getBorderColor(),
                 'textColor' => $event->getTextColor(),
-                'allDay' => $event->getAllDay(),
+                
             ];
 
         }

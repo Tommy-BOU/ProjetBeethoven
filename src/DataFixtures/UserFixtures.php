@@ -7,9 +7,16 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture
 {
+    private UserPasswordHasherInterface $userPasswordHasher;
+
+    public function __construct(UserPasswordHasherInterface $userPasswordHasher)
+    {
+        $this->userPasswordHasher = $userPasswordHasher;
+    }
     public function load(ObjectManager $manager): void
     {
         $faker = Factory::create('fr_FR');
@@ -33,7 +40,10 @@ class UserFixtures extends Fixture
         $admin = new User();
         $admin->setEmail('admin@admin.com')
         ->setRoles(['ROLE_ADMIN', 'ROLE_USER'])
-        ->setPassword('admin')
+        ->setPassword($this->userPasswordHasher->hashPassword(
+            $admin,
+            'admin'
+        ))
         ->setFirstName('admin')
         ->setLastName('admin')
         ->setAddress('admin')
