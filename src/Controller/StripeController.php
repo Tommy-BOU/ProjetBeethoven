@@ -5,6 +5,7 @@ namespace App\Controller;
 use Stripe\Stripe;
 
 use App\Entity\Subscription;
+use Stripe\Checkout\Session;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -33,7 +34,7 @@ class StripeController extends AbstractController
             $order['price'] = 259.10;
         }
 
-        $checkout_session = \Stripe\Checkout\Session::create([
+        $checkout_session = Session::create([
             'line_items' => [[
 
                 'price_data' => [
