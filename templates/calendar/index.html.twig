@@ -13,7 +13,6 @@
                 <th>Start</th>
                 <th>End</th>
                 <th>Description</th>
-                <th>All_day</th>
                 <th>Background_color</th>
                 <th>Border_color</th>
                 <th>Text_color</th>
@@ -28,7 +27,6 @@
                 <td>{{ calendar.start ? calendar.start|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ calendar.end ? calendar.end|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ calendar.description }}</td>
-                <td>{{ calendar.allDay ? 'Yes' : 'No' }}</td>
                 <td>{{ calendar.backgroundColor }}</td>
                 <td>{{ calendar.borderColor }}</td>
                 <td>{{ calendar.textColor }}</td>
